@@ -33,7 +33,7 @@ Production traces                 Hugging Face                    Hugging Face
 (any source)                      (data hub)                      (model hub)
      │                                │                                │
      ▼                                ▼                                ▼
-┌─────────┐   cleaned traces   ┌─────────────┐  traces + seed  ┌─────────────┐
+┌─────────┐   cleaned traces   ┌─────────────┐  traces + seed   ┌─────────────┐
 │   dlt   │ ─────────────────► │  HF Dataset │ ───────────────► │ Distil Labs │
 └─────────┘                    └─────────────┘                  └──────┬──────┘
                                                                         │
