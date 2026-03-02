@@ -11,6 +11,7 @@ Pipeline:
 Usage:
     python stage2-prepare-distil-labs-data.py --input my-org/massive-iot-2026-03-01
     python stage2-prepare-distil-labs-data.py --input my-org/massive-iot-2026-03-01 --min-score 4
+    python stage2-prepare-distil-labs-data.py --input my-org/massive-iot-2026-03-01 --model openai/gpt-4o
 """
 
 import argparse
@@ -30,7 +31,7 @@ SAMPLE_SIZE = 300
 MIN_SCORE = 5
 TEST_FRACTION = 0.5
 SEED = 42
-MODEL = "bedrock/converse/openai.gpt-oss-120b-1:0"
+DEFAULT_MODEL = "bedrock/converse/openai.gpt-oss-120b-1:0"
 
 ANNOTATION_PROMPT = """\
 You are evaluating a function-calling dataset for quality. Given a user utterance \
@@ -129,7 +130,7 @@ def stratified_sample(all_rows: list[dict], rng: random.Random) -> list[dict]:
     return sampled
 
 
-def get_quality_scores(row: dict, schema: dict) -> dict:
+def get_quality_scores(row: dict, schema: dict, model: str) -> dict:
     """Call the LLM to score a single example. Returns a dict with the scores."""
     fc = row["function_call"]
     args = parse_arguments(fc)
@@ -142,7 +143,7 @@ def get_quality_scores(row: dict, schema: dict) -> dict:
     for attempt in range(3):
         try:
             resp = litellm.completion(
-                model=MODEL,
+                model=model,
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.0,
                 max_tokens=256,
@@ -160,13 +161,13 @@ def get_quality_scores(row: dict, schema: dict) -> dict:
                 return {"inference_score": -1, "coherence_score": -1}
 
 
-def annotate_rows(sampled: list[dict], schema: dict) -> list[dict]:
+def annotate_rows(sampled: list[dict], schema: dict, model: str) -> list[dict]:
     """Stage 3: Annotate each row with LLM quality scores."""
-    print(f"Stage 3: Annotate ({len(sampled)} rows with {MODEL})")
+    print(f"Stage 3: Annotate ({len(sampled)} rows with {model})")
 
     with ThreadPoolExecutor() as executor:
         futures = [
-            executor.submit(get_quality_scores, row=row, schema=schema)
+            executor.submit(get_quality_scores, row=row, schema=schema, model=model)
             for row in sampled
         ]
         results = [future.result() for future in futures]
@@ -248,12 +249,12 @@ def write_outputs(
 # ── Main ─────────────────────────────────────────────────────────────
 
 
-def main(input_dataset: str, job_description: Path, output_dir: Path, seed: int = SEED):
+def main(input_dataset: str, job_description: Path, output_dir: Path, seed: int = SEED, model: str = DEFAULT_MODEL):
     rng = random.Random(seed)
 
     schema, all_rows = load_inputs(input_dataset, job_description)
     sampled = stratified_sample(all_rows, rng)
-    annotated = annotate_rows(sampled, schema)
+    annotated = annotate_rows(sampled, schema, model)
     filtered = filter_by_quality(annotated, MIN_SCORE)
     train_rows, test_rows = train_test_split(filtered, rng)
     write_outputs(train_rows, test_rows, all_rows, output_dir)
@@ -277,7 +278,11 @@ if __name__ == "__main__":
         "--output-dir", type=Path, default=Path("finetuning-data"),
         help="Directory to write train.jsonl, test.jsonl, and unstructured.jsonl",
     )
+    parser.add_argument(
+        "--model", default=DEFAULT_MODEL,
+        help="LLM model for annotation in litellm format (e.g. openai/gpt-4o, bedrock/converse/...)",
+    )
     parser.add_argument("--seed", type=int, default=SEED)
     args = parser.parse_args()
 
-    main(args.input, args.job_description, args.output_dir, args.seed)
+    main(args.input, args.job_description, args.output_dir, args.seed, args.model)
