@@ -1,7 +1,5 @@
 # Training a Small Language Model from Production Traces
 
-*A joint demo by [dlt](https://dlthub.com), [Distil Labs](https://distillabs.ai), and [Hugging Face](https://huggingface.co).*
-
 Your production LLM agent is already solving the task thousands of times a day. Those traces aren't just logs -- they're a description of your problem space: the vocabulary your users actually use, the edge cases that show up in the wild, the distribution of requests your model needs to handle. This project shows how to turn that signal into a purpose-built small model that replaces your large one.
 
 This demo chains three tools into a complete ML pipeline:
