@@ -1,0 +1,262 @@
+{
+  "task_description": "Select the correct IoT smart home function and extract parameters from a user's spoken command.",
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "iot_hue_lightoff",
+        "description": "Turn off smart lights.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "color_type": {
+              "type": "string",
+              "description": "The color or color temperature of the light"
+            },
+            "device_type": {
+              "type": "string",
+              "description": "The type of light device"
+            },
+            "house_place": {
+              "type": "string",
+              "description": "The room or location in the house"
+            },
+            "time": {
+              "type": "string",
+              "description": "When to perform the action"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "iot_hue_lighton",
+        "description": "Turn on smart lights.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "device_type": {
+              "type": "string",
+              "description": "The type of light device"
+            },
+            "house_place": {
+              "type": "string",
+              "description": "The room or location in the house"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "iot_hue_lightup",
+        "description": "Increase smart light brightness.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "change_amount": {
+              "type": "string",
+              "description": "How much to change the brightness"
+            },
+            "device_type": {
+              "type": "string",
+              "description": "The type of light device"
+            },
+            "house_place": {
+              "type": "string",
+              "description": "The room or location in the house"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "iot_hue_lightdim",
+        "description": "Decrease smart light brightness.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "change_amount": {
+              "type": "string",
+              "description": "How much to change the brightness"
+            },
+            "color_type": {
+              "type": "string",
+              "description": "The color or color temperature of the light"
+            },
+            "device_type": {
+              "type": "string",
+              "description": "The type of light device"
+            },
+            "house_place": {
+              "type": "string",
+              "description": "The room or location in the house"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "iot_hue_lightchange",
+        "description": "Change smart light color or mode.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "change_amount": {
+              "type": "string",
+              "description": "How much to change the setting"
+            },
+            "color_type": {
+              "type": "string",
+              "description": "The color or color temperature to change to"
+            },
+            "house_place": {
+              "type": "string",
+              "description": "The room or location in the house"
+            },
+            "player_setting": {
+              "type": "string",
+              "description": "The light mode or scene setting"
+            },
+            "time": {
+              "type": "string",
+              "description": "When to perform the action"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "iot_wemo_on",
+        "description": "Turn on a smart plug or switch.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "device_type": {
+              "type": "string",
+              "description": "The type of smart plug or switch"
+            },
+            "house_place": {
+              "type": "string",
+              "description": "The room or location in the house"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "iot_wemo_off",
+        "description": "Turn off a smart plug or switch.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "device_type": {
+              "type": "string",
+              "description": "The type of smart plug or switch"
+            },
+            "house_place": {
+              "type": "string",
+              "description": "The room or location in the house"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "iot_coffee",
+        "description": "Operate the smart coffee maker.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "business_name": {
+              "type": "string",
+              "description": "The name of the coffee brand or shop"
+            },
+            "business_type": {
+              "type": "string",
+              "description": "The type of coffee business"
+            },
+            "coffee_type": {
+              "type": "string",
+              "description": "The type of coffee to make"
+            },
+            "date": {
+              "type": "string",
+              "description": "The date for the action"
+            },
+            "device_type": {
+              "type": "string",
+              "description": "The type of coffee device"
+            },
+            "time": {
+              "type": "string",
+              "description": "When to make the coffee"
+            },
+            "timeofday": {
+              "type": "string",
+              "description": "The time of day for the action"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "iot_cleaning",
+        "description": "Start or control the robot vacuum or cleaning device.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string",
+              "description": "The date for the cleaning"
+            },
+            "device_type": {
+              "type": "string",
+              "description": "The type of cleaning device"
+            },
+            "general_frequency": {
+              "type": "string",
+              "description": "How often to clean"
+            },
+            "house_place": {
+              "type": "string",
+              "description": "The room or location to clean"
+            },
+            "place_name": {
+              "type": "string",
+              "description": "The specific place name"
+            },
+            "time": {
+              "type": "string",
+              "description": "When to start cleaning"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    }
+  ]
+}

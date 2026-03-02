@@ -1,0 +1,75 @@
+{"question": "turn off my wemo socket", "answer": "{\"name\": \"iot_wemo_off\", \"parameters\": {\"device_type\": \"wemo socket\"}}"}
+{"question": "turn off smart socket", "answer": "{\"name\": \"iot_wemo_off\", \"parameters\": {\"device_type\": \"smart socket\"}}"}
+{"question": "can i please have a cafe americano", "answer": "{\"name\": \"iot_coffee\", \"parameters\": {\"coffee_type\": \"americano\"}}"}
+{"question": "lower the lights in the living room", "answer": "{\"name\": \"iot_hue_lightdim\", \"parameters\": {\"house_place\": \"living room\"}}"}
+{"question": "switch off the wemo plug socket", "answer": "{\"name\": \"iot_wemo_off\", \"parameters\": {\"device_type\": \"wemo plug socket\"}}"}
+{"question": "change the lights in the living room to green and red", "answer": "{\"name\": \"iot_hue_lightchange\", \"parameters\": {\"house_place\": \"living room\", \"color_type\": \"green and red\"}}"}
+{"question": "olly can you raise the lights for me please", "answer": "{\"name\": \"iot_hue_lightup\", \"parameters\": {}}"}
+{"question": "change the lights to dim", "answer": "{\"name\": \"iot_hue_lightdim\", \"parameters\": {}}"}
+{"question": "please turn on the lights in my house", "answer": "{\"name\": \"iot_hue_lighton\", \"parameters\": {\"house_place\": \"house\"}}"}
+{"question": "how do i set my coffee machine to make coffee", "answer": "{\"name\": \"iot_coffee\", \"parameters\": {\"device_type\": \"coffee machine\"}}"}
+{"question": "turn off my smart plug socket", "answer": "{\"name\": \"iot_wemo_off\", \"parameters\": {\"device_type\": \"smart plug socket\"}}"}
+{"question": "change the lights of the house to a blue hue", "answer": "{\"name\": \"iot_hue_lightchange\", \"parameters\": {\"house_place\": \"house\", \"color_type\": \"blue\"}}"}
+{"question": "please turn down the lights in the living room", "answer": "{\"name\": \"iot_hue_lightdim\", \"parameters\": {\"house_place\": \"living room\"}}"}
+{"question": "please start vacuum", "answer": "{\"name\": \"iot_cleaning\", \"parameters\": {\"device_type\": \"vacuum\"}}"}
+{"question": "i'd like a coffee now", "answer": "{\"name\": \"iot_coffee\", \"parameters\": {}}"}
+{"question": "turn on the light socket", "answer": "{\"name\": \"iot_wemo_on\", \"parameters\": {\"device_type\": \"light socket\"}}"}
+{"question": "i would like a cup of coffee with one cream and three sugars", "answer": "{\"name\": \"iot_coffee\", \"parameters\": {\"coffee_type\": \"coffee with one cream and three sugars\"}}"}
+{"question": "please turn the lights off in the bathroom", "answer": "{\"name\": \"iot_hue_lightoff\", \"parameters\": {\"house_place\": \"bathroom\"}}"}
+{"question": "lower the lighting", "answer": "{\"name\": \"iot_hue_lightdim\", \"parameters\": {}}"}
+{"question": "turn on the socket", "answer": "{\"name\": \"iot_wemo_on\", \"parameters\": {}}"}
+{"question": "can you increase the brightness in the room", "answer": "{\"name\": \"iot_hue_lightup\", \"parameters\": {\"house_place\": \"room\"}}"}
+{"question": "can you make me some coffee", "answer": "{\"name\": \"iot_coffee\", \"parameters\": {}}"}
+{"question": "turn off the smart plug", "answer": "{\"name\": \"iot_wemo_off\", \"parameters\": {\"device_type\": \"smart plug\"}}"}
+{"question": "switch on robot vacuum cleaner", "answer": "{\"name\": \"iot_cleaning\", \"parameters\": {\"device_type\": \"robot vacuum cleaner\"}}"}
+{"question": "turn my smart plug socket on", "answer": "{\"name\": \"iot_wemo_on\", \"parameters\": {\"device_type\": \"smart plug socket\"}}"}
+{"question": "make me a cappuccino", "answer": "{\"name\": \"iot_coffee\", \"parameters\": {\"coffee_type\": \"cappuccino\"}}"}
+{"question": "turn off the rice cooker socket", "answer": "{\"name\": \"iot_wemo_off\", \"parameters\": {\"device_type\": \"rice cooker socket\"}}"}
+{"question": "start robot vacuum", "answer": "{\"name\": \"iot_cleaning\", \"parameters\": {}}"}
+{"question": "power off the wemo plug", "answer": "{\"name\": \"iot_wemo_off\", \"parameters\": {\"device_type\": \"wemo plug\"}}"}
+{"question": "turn up the brightness of the lights", "answer": "{\"name\": \"iot_hue_lightup\", \"parameters\": {}}"}
+{"question": "hey alexa turn on disco lights in my apartment and let the party begin", "answer": "{\"name\": \"iot_hue_lighton\", \"parameters\": {\"device_type\": \"disco lights\", \"house_place\": \"apartment\"}}"}
+{"question": "can you turn down the lights by twenty percent", "answer": "{\"name\": \"iot_hue_lightdim\", \"parameters\": {\"change_amount\": \"by twenty percent\"}}"}
+{"question": "please turn off my patio lights", "answer": "{\"name\": \"iot_hue_lightoff\", \"parameters\": {\"house_place\": \"patio\"}}"}
+{"question": "turn bedroom lights off", "answer": "{\"name\": \"iot_hue_lightoff\", \"parameters\": {\"house_place\": \"bedroom\"}}"}
+{"question": "more light please", "answer": "{\"name\": \"iot_hue_lightup\", \"parameters\": {}}"}
+{"question": "lower brightness of lights", "answer": "{\"name\": \"iot_hue_lightdim\", \"parameters\": {}}"}
+{"question": "hey can you make it blue in here", "answer": "{\"name\": \"iot_hue_lightchange\", \"parameters\": {\"color_type\": \"blue\", \"house_place\": \"here\"}}"}
+{"question": "have my iroomba clean the house", "answer": "{\"name\": \"iot_cleaning\", \"parameters\": {\"device_type\": \"iroomba\", \"house_place\": \"house\"}}"}
+{"question": "turn on my wemo socket", "answer": "{\"name\": \"iot_wemo_on\", \"parameters\": {\"device_type\": \"wemo socket\"}}"}
+{"question": "turn on the geyser", "answer": "{\"name\": \"iot_wemo_on\", \"parameters\": {\"device_type\": \"geyser\"}}"}
+{"question": "turn on the wemo", "answer": "{\"name\": \"iot_wemo_on\", \"parameters\": {\"device_type\": \"wemo\"}}"}
+{"question": "i would like the bathroom lights set to yellow", "answer": "{\"name\": \"iot_hue_lightchange\", \"parameters\": {\"house_place\": \"bathroom\", \"color_type\": \"yellow\"}}"}
+{"question": "change the lights in the kitchen to blue", "answer": "{\"name\": \"iot_hue_lightchange\", \"parameters\": {\"house_place\": \"kitchen\", \"color_type\": \"blue\"}}"}
+{"question": "please dim the lights in the bedrooms", "answer": "{\"name\": \"iot_hue_lightdim\", \"parameters\": {\"house_place\": \"bedrooms\"}}"}
+{"question": "can the lights be changed to green", "answer": "{\"name\": \"iot_hue_lightchange\", \"parameters\": {\"color_type\": \"green\"}}"}
+{"question": "turn the vacuum on", "answer": "{\"name\": \"iot_cleaning\", \"parameters\": {\"device_type\": \"vacuum\"}}"}
+{"question": "alexa turn the lights down to seven", "answer": "{\"name\": \"iot_hue_lightdim\", \"parameters\": {\"change_amount\": \"to seven\"}}"}
+{"question": "how do i start the robot vacuum cleaner", "answer": "{\"name\": \"iot_cleaning\", \"parameters\": {\"device_type\": \"robot vacuum cleaner\"}}"}
+{"question": "turn the lights off please", "answer": "{\"name\": \"iot_hue_lightoff\", \"parameters\": {}}"}
+{"question": "shut the lights off in my bedroom please", "answer": "{\"name\": \"iot_hue_lightoff\", \"parameters\": {\"house_place\": \"bedroom\"}}"}
+{"question": "prepare coffee", "answer": "{\"name\": \"iot_coffee\", \"parameters\": {}}"}
+{"question": "alexa please turn on the lights", "answer": "{\"name\": \"iot_hue_lighton\", \"parameters\": {}}"}
+{"question": "increase the brightness of the lights", "answer": "{\"name\": \"iot_hue_lightup\", \"parameters\": {}}"}
+{"question": "i want the robot vacuum cleaner to start at one p. m. today", "answer": "{\"name\": \"iot_cleaning\", \"parameters\": {\"device_type\": \"robot vacuum cleaner\", \"time\": \"one p. m.\", \"date\": \"today\"}}"}
+{"question": "olly make me some coffee", "answer": "{\"name\": \"iot_coffee\", \"parameters\": {}}"}
+{"question": "turn off porch light", "answer": "{\"name\": \"iot_hue_lightoff\", \"parameters\": {\"house_place\": \"porch\"}}"}
+{"question": "please turn on the lights", "answer": "{\"name\": \"iot_hue_lighton\", \"parameters\": {}}"}
+{"question": "switch off all lights", "answer": "{\"name\": \"iot_hue_lightoff\", \"parameters\": {\"device_type\": \"lights\"}}"}
+{"question": "turn the lights down to seven", "answer": "{\"name\": \"iot_hue_lightdim\", \"parameters\": {\"change_amount\": \"to seven\"}}"}
+{"question": "get the roomba to start cleaning", "answer": "{\"name\": \"iot_cleaning\", \"parameters\": {\"device_type\": \"roomba\"}}"}
+{"question": "olly i'd like a coffee please", "answer": "{\"name\": \"iot_coffee\", \"parameters\": {}}"}
+{"question": "switch off kitchen lights", "answer": "{\"name\": \"iot_hue_lightoff\", \"parameters\": {\"house_place\": \"kitchen\"}}"}
+{"question": "turn the plug off", "answer": "{\"name\": \"iot_wemo_off\", \"parameters\": {}}"}
+{"question": "please turn on my balcony lights", "answer": "{\"name\": \"iot_hue_lighton\", \"parameters\": {\"house_place\": \"balcony\"}}"}
+{"question": "switch on the lights", "answer": "{\"name\": \"iot_hue_lighton\", \"parameters\": {}}"}
+{"question": "turn on the plug", "answer": "{\"name\": \"iot_wemo_on\", \"parameters\": {\"device_type\": \"plug\"}}"}
+{"question": "start the robot vacuum cleaner at one p. m. today", "answer": "{\"name\": \"iot_cleaning\", \"parameters\": {\"device_type\": \"robot vacuum cleaner\", \"time\": \"one p. m.\", \"date\": \"today\"}}"}
+{"question": "please make me nice coffee", "answer": "{\"name\": \"iot_coffee\", \"parameters\": {}}"}
+{"question": "turn the lights off now", "answer": "{\"name\": \"iot_hue_lightoff\", \"parameters\": {}}"}
+{"question": "change light color to yellow", "answer": "{\"name\": \"iot_hue_lightchange\", \"parameters\": {\"color_type\": \"yellow\"}}"}
+{"question": "start a pot of coffee please", "answer": "{\"name\": \"iot_coffee\", \"parameters\": {}}"}
+{"question": "can i change this light to orange", "answer": "{\"name\": \"iot_hue_lightchange\", \"parameters\": {\"color_type\": \"orange\"}}"}
+{"question": "turn off the bathroom light please", "answer": "{\"name\": \"iot_hue_lightoff\", \"parameters\": {\"house_place\": \"bathroom\"}}"}
+{"question": "dim the lights in the living room", "answer": "{\"name\": \"iot_hue_lightdim\", \"parameters\": {\"house_place\": \"living room\"}}"}
+{"question": "turn off wemo plug in game room", "answer": "{\"name\": \"iot_wemo_off\", \"parameters\": {\"device_type\": \"wemo plug\", \"house_place\": \"game room\"}}"}

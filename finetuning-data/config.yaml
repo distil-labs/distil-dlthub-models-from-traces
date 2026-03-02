@@ -1,0 +1,7 @@
+base:
+  task: tool-calling-closed-book
+  student_model_name: Qwen3-0.6B
+  teacher_model_name: openai.gpt-oss-120b
+  random_seed: 42
+synthgen:
+  parallel_llm_calls: true
