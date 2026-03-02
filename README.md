@@ -97,7 +97,7 @@ With a trained model in hand, the final step is making it available for inferenc
 
 ### Upload to Hugging Face
 
-Push the trained model to a Hugging Face repository using the [Distil Labs API](https://docs.distillabs.ai/api-reference/trainings/upload-huggingface-model-trainings-training-id-huggingface-models-post). This requires a Distil Labs API token (see [Appendix: Getting a Distil Labs API Token](#appendix-getting-a-distil-labs-api-token)).
+Push the trained model to a Hugging Face repository using the [Distil Labs API](https://docs.distillabs.ai/api-reference/trainings/upload-huggingface-model-trainings-training-id-huggingface-models-post). This requires a Distil Labs API token (see [Appendix: Getting a Distil Labs API Token](#appendix-getting-a-distil-labs-api-token)). For example the model we trained in this tutorial can be found in [massive-iot-traces1](https://huggingface.co/distillabs/massive-iot-traces1).
 
 ```bash
 curl -X POST "https://api.distillabs.ai/trainings/<training-id>/huggingface_models" \
@@ -151,21 +151,6 @@ For development and testing, you can also deploy the model locally using llama.c
 distil model deploy local <model-id>
 ```
 
-## Project Structure
-
-```
-├── README.md                          # This file
-├── stage1-preprocess-data.py          # Extract & upload production traces
-├── stage2-prepare-distil-labs-data.py # Curate training data & prepare upload
-├── finetuning-data/
-│   ├── job_description.json           # Task + tool schemas
-│   ├── config.yaml                    # Training configuration
-│   ├── train.jsonl                    # Labeled training examples
-│   ├── test.jsonl                     # Held-out evaluation set
-│   └── unstructured.jsonl             # Full production traces
-├── benchmark.md                       # Training run details and results
-└── data/                              # Raw MASSIVE dataset
-```
 
 ## Appendix: Getting a Distil Labs API Token
 
