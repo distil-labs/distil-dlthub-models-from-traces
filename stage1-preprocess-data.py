@@ -84,9 +84,9 @@ def main(input_path: Path, scenario: str, hf_namespace: str):
     resource.add_filter(lambda row: row["scenario"] == scenario)
     resource.add_yield_map(convert_row)
 
-    load_info = pipeline.run(resource)
+    pipeline.run(resource)
 
-    print(load_info)
+    print(pipeline.last_trace)
     print(f"\nDataset: https://huggingface.co/datasets/{hf_namespace}/{dataset_name}")
 
 

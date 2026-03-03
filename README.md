@@ -57,7 +57,7 @@ Production traces                 Hugging Face                    Hugging Face
 
 ```bash
 # Install dependencies
-pip install dlt[filesystem,hf] litellm datasets
+pip install "dlt[filesystem,hf,duckdb]" litellm datasets
 
 # Install Distil Labs CLI
 curl -fsSL https://cli-assets.distillabs.ai/install.sh | sh
@@ -112,7 +112,7 @@ Distil Labs only needs a small number of clean, representative examples as a see
 The most important output is `unstructured.jsonl`, which contains all 1,107 original production traces. This is what grounds the synthetic data generation: the Distil Labs pipeline feeds these traces to the teacher model as domain context, so the generated training examples reflect the vocabulary, phrasing, and edge cases of your real traffic rather than the model's generic priors.
 
 ```bash
-python stage2-prepare-distil-labs-data.py --input my-org/massive_iot_2026_03_02_09_16_28
+python stage2-prepare-distil-labs-data.py --input dlthub/massive_iot_2026_03_03_11_05_35
 ```
 
 This produces the `finetuning-data/` directory ready for upload:
