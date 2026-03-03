@@ -257,7 +257,9 @@ def main(input_dataset: str, job_description: Path, output_dir: Path, seed: int 
     annotated = annotate_rows(sampled, schema, model)
     filtered = filter_by_quality(annotated, MIN_SCORE)
     train_rows, test_rows = train_test_split(filtered, rng)
-    write_outputs(train_rows, test_rows, all_rows, output_dir)
+    sampled_ids = {id(r) for r in sampled}
+    unstructured_rows = [r for r in all_rows if id(r) not in sampled_ids]
+    write_outputs(train_rows, test_rows, unstructured_rows, output_dir)
 
     print(f"\nDone. Upload directory: {output_dir}")
 

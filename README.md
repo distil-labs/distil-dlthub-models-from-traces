@@ -109,7 +109,7 @@ Distil Labs only needs a small number of clean, representative examples as a see
 5. **Splits** the filtered examples 50/50 into stratified train/test sets
 6. **Writes** the Distil Labs upload files: `train.jsonl`, `test.jsonl`, and `unstructured.jsonl`
 
-The most important output is `unstructured.jsonl`, which contains all 1,107 original production traces. This is what grounds the synthetic data generation: the Distil Labs pipeline feeds these traces to the teacher model as domain context, so the generated training examples reflect the vocabulary, phrasing, and edge cases of your real traffic rather than the model's generic priors.
+One of the output is `unstructured.jsonl`, which contains the production traces not sampled for train/test. Traces selected during sampling are excluded from the unstructured set to prevent data leakage between the seed examples and the synthetic generation context. This is what grounds the synthetic data generation: the Distil Labs pipeline feeds these traces to the teacher model as domain context, so the generated training examples reflect the vocabulary, phrasing, and edge cases of your real traffic rather than the model's generic priors.
 
 ```bash
 python stage2-prepare-distil-labs-data.py --input my-org/massive_iot_2026_03_02_09_16_28
@@ -123,7 +123,7 @@ This produces the `finetuning-data/` directory ready for upload:
 | `config.yaml` | Training configuration (task type, student/teacher models) |
 | `train.jsonl` | ~75 filtered seed examples |
 | `test.jsonl` | ~78 held-out evaluation examples |
-| `unstructured.jsonl` | 1,107 production traces used to ground synthetic data generation |
+| `unstructured.jsonl` | Production traces (excluding sampled rows) used to ground synthetic data generation |
 
 Upload the data and kick off training with the Distil CLI:
 
