@@ -22,8 +22,8 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
+import dlt
 import litellm
-from datasets import load_dataset
 
 # ── Constants ────────────────────────────────────────────────────────
 
@@ -96,20 +96,20 @@ def parse_arguments(fc: dict) -> dict:
 # ── Stage functions ──────────────────────────────────────────────────
 
 
-def load_inputs(input_dataset: str, job_description: Path) -> tuple[dict, list[dict]]:
+def load_inputs(input_dataset: str) -> list[dict]:
     """Stage 1: Load the function schema and input dataset from Hugging Face."""
     print("Stage 1: Load inputs")
 
-    with open(job_description) as f:
-        job_desc = json.load(f)
-    schema = {t["function"]["name"]: t["function"] for t in job_desc["tools"]}
-    print(f"  Schema: {len(schema)} functions from {job_description}")
-
-    ds = load_dataset(input_dataset, split="train")
-    all_rows = [normalize_row(dict(row)) for row in ds]
+    hf_namespace, dataset_name = input_dataset.split("/", 1)
+    dlt.secrets["bucket_url"] = f"hf://datasets/{hf_namespace}"
+    p = dlt.pipeline(
+        destination="filesystem",
+        dataset_name=dataset_name,
+    )
+    all_rows = [normalize_row(row) for row in p.dataset().massive_traces.df().to_dict("records")]
     print(f"  Input:  {len(all_rows)} examples from {input_dataset}")
 
-    return schema, all_rows
+    return all_rows
 
 
 def stratified_sample(all_rows: list[dict], rng: random.Random) -> list[dict]:
@@ -148,7 +148,11 @@ def get_quality_scores(row: dict, schema: dict, model: str) -> dict:
                 temperature=0.0,
                 max_tokens=256,
             )
-            scores = json.loads(resp.choices[0].message.content.strip())
+            result = resp.choices[0].message.content.strip()
+            # Strip markdown code fences (e.g. ```json ... ```)
+            if result.startswith("```"):
+                result = result.split("\n", 1)[-1].rsplit("```", 1)[0].strip()
+            scores = json.loads(result)
             return {
                 "inference_score": int(scores["inference_score"]),
                 "coherence_score": int(scores["coherence_score"]),
@@ -252,7 +256,12 @@ def write_outputs(
 def main(input_dataset: str, job_description: Path, output_dir: Path, seed: int = SEED, model: str = DEFAULT_MODEL):
     rng = random.Random(seed)
 
-    schema, all_rows = load_inputs(input_dataset, job_description)
+    with open(job_description) as f:
+        job_desc = json.load(f)
+    schema = {t["function"]["name"]: t["function"] for t in job_desc["tools"]}
+    print(f"  Schema: {len(schema)} functions from {job_description}")
+
+    all_rows = load_inputs(input_dataset)
     sampled = stratified_sample(all_rows, rng)
     annotated = annotate_rows(sampled, schema, model)
     filtered = filter_by_quality(annotated, MIN_SCORE)
