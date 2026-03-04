@@ -18,11 +18,11 @@ Training a **Qwen3-0.6B** student distilled from an **openai.gpt-oss-120b** teac
 
 | Model | Tool Call Equivalence (↑) | Parameters |
 |-------|--------------------------|------------|
-| Teacher (openai.gpt-oss-120b) | 50.60% | 120B |
-| Student base (Qwen3-0.6B) | 9.64% | 0.6B |
-| **Student tuned (Qwen3-0.6B)** | **78.31%** | **0.6B** |
+| Teacher (openai.gpt-oss-120b) | 50.00% | 120B |
+| Student base (Qwen3-0.6B) | 10.26% | 0.6B |
+| **Student tuned (Qwen3-0.6B)** | **79.49%** | **0.6B** |
 
-The tuned 0.6B model **beats the 120B teacher by 28 points** on exact structured match. The teacher scores lower here because it is a general-purpose model -- it has never specialized in your domain, your function schemas, or the specific phrasing patterns of your users. The student, trained on synthetic data generated from real traffic, is an expert in exactly this task and nothing else. A model 200x smaller, running in under 50ms locally versus 400-700ms for a cloud API call, doing the job better on the metric that matters for production: did it call the right function with the right arguments?
+The tuned 0.6B model **beats the 120B teacher by 29 points** on exact structured match. The teacher scores lower here because it is a general-purpose model -- it has never specialized in your domain, your function schemas, or the specific phrasing patterns of your users. The student, trained on synthetic data generated from real traffic, is an expert in exactly this task and nothing else. A model 200x smaller, running in under 50ms locally versus 400-700ms for a cloud API call, doing the job better on the metric that matters for production: did it call the right function with the right arguments?
 
 ---
 
@@ -248,7 +248,7 @@ Two reasons: cost and latency. A 0.6B model deployed on a single GPU responds in
 
 **Q: Why not just prompt the base Qwen3-0.6B model directly?**
 
-The base model achieves 9.64% tool call equivalence on this task -- it knows roughly what a function call looks like, but it doesn't know your specific functions, argument names, or the phrasing patterns of your users. Fine-tuning on synthetic data grounded in your traces is what closes that gap.
+The base model achieves 10.26% tool call equivalence on this task -- it knows roughly what a function call looks like, but it doesn't know your specific functions, argument names, or the phrasing patterns of your users. Fine-tuning on synthetic data grounded in your traces is what closes that gap.
 
 **Q: Are you just training on my traces directly?**
 
@@ -260,7 +260,7 @@ No. You only need a small filtered seed set (~50-100 examples). The LLM scoring 
 
 **Q: The model produces an incorrect function call.**
 
-The model achieves 78.31% exact match, which means roughly 1 in 5 queries may need a fallback or review step. For production use, consider adding a confidence threshold and routing low-confidence predictions to a larger model. If you find consistent failure patterns, open an issue and we can look at adding those cases to the training data.
+The model achieves 79.49% exact match, which means roughly 1 in 5 queries may need a fallback or review step. For production use, consider adding a confidence threshold and routing low-confidence predictions to a larger model. If you find consistent failure patterns, open an issue and we can look at adding those cases to the training data.
 
 ---
 

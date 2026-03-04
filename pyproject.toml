@@ -1,0 +1,10 @@
+[project]
+name = "distil-dlthub-models-from-traces"
+version = "0.1.0"
+description = "Train a small language model from production traces using dlt, Hugging Face, and Distil Labs"
+requires-python = ">=3.10"
+dependencies = [
+    "dlt[filesystem,hf,duckdb]",
+    "litellm",
+    "datasets",
+]
