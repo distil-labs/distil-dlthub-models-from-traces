@@ -20,13 +20,13 @@ Usage:
 """
 
 import argparse
-import json
 import os
 import re
 from datetime import datetime, timezone
 from pathlib import Path
 
 import dlt
+from dlt.sources.filesystem import filesystem, read_jsonl
 
 SLOT_PATTERN = re.compile(r"\[(\w+)\s*:\s*([^\]]+)\]")
 
@@ -47,53 +47,46 @@ def convert_row(row: dict) -> dict:
                     "type": "function",
                     "function": {
                         "name": row["intent"],
-                        "arguments": json.dumps(parse_arguments(row["annot_utt"])),
+                        "arguments": parse_arguments(row["annot_utt"]),
                     },
                 }
             ],
         },
     ]
-    return {
-        "messages": json.dumps(messages),
+    yield {
+        "messages": messages,
         "scenario": row["scenario"],
         "partition": row["partition"],
     }
-
-
-@dlt.resource(write_disposition="replace")
-def massive_traces(input_path: Path, scenario: str):
-    """Read and convert MASSIVE JSONL rows for a given scenario."""
-    with open(input_path) as f:
-        for line in f:
-            if not line.strip():
-                continue
-            row = json.loads(line)
-            if row["scenario"] != scenario:
-                continue
-            yield convert_row(row)
 
 
 def main(input_path: Path, scenario: str, hf_namespace: str):
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d-%H-%M-%S")
     dataset_name = f"massive_{scenario}_{timestamp}".replace("-", "_")
 
-    bucket_url = f"hf://datasets/{hf_namespace}"
+    dlt.secrets["bucket_url"] = f"hf://datasets/{hf_namespace}"
 
     pipeline = dlt.pipeline(
         pipeline_name="massive_traces",
-        destination=dlt.destinations.filesystem(bucket_url=bucket_url),
+        destination="filesystem",
         dataset_name=dataset_name,
     )
 
     print(f"Processing scenario '{scenario}' from {input_path}")
-    print(f"Uploading to {bucket_url}/{dataset_name}")
+    print(f"Uploading to {dlt.secrets.get('bucket_url')}/{dataset_name}")
 
-    load_info = pipeline.run(
-        massive_traces(input_path, scenario),
-        dataset_name=dataset_name,
-    )
+    resource = (
+        filesystem(bucket_url=str(input_path.parent), file_glob=input_path.name)
+        | read_jsonl()
+    ).with_name("massive_traces")
 
-    print(load_info)
+    resource.apply_hints(write_disposition="replace", columns={"messages": {"data_type": "json"}})
+    resource.add_filter(lambda row: row["scenario"] == scenario)
+    resource.add_yield_map(convert_row)
+
+    pipeline.run(resource)
+
+    print(pipeline.last_trace)
     print(f"\nDataset: https://huggingface.co/datasets/{hf_namespace}/{dataset_name}")
 
 
