@@ -12,6 +12,7 @@ Usage:
     python stage2-prepare-distil-labs-data.py --input my-org/massive-iot-2026-03-01
     python stage2-prepare-distil-labs-data.py --input my-org/massive-iot-2026-03-01 --min-score 4
     python stage2-prepare-distil-labs-data.py --input my-org/massive-iot-2026-03-01 --model openai/gpt-4o
+    python stage2-prepare-distil-labs-data.py --input my-org/massive-iot-2026-03-01 --model minimax/MiniMax-M2.5 --temperature 0.01
 """
 
 import argparse
@@ -130,7 +131,7 @@ def stratified_sample(all_rows: list[dict], rng: random.Random) -> list[dict]:
     return sampled
 
 
-def get_quality_scores(row: dict, schema: dict, model: str) -> dict:
+def get_quality_scores(row: dict, schema: dict, model: str, temperature: float = 0.0) -> dict:
     """Call the LLM to score a single example. Returns a dict with the scores."""
     fc = row["function_call"]
     args = parse_arguments(fc)
@@ -145,7 +146,7 @@ def get_quality_scores(row: dict, schema: dict, model: str) -> dict:
             resp = litellm.completion(
                 model=model,
                 messages=[{"role": "user", "content": prompt}],
-                temperature=0.0,
+                temperature=temperature,
                 max_tokens=256,
             )
             result = resp.choices[0].message.content.strip()
@@ -165,13 +166,13 @@ def get_quality_scores(row: dict, schema: dict, model: str) -> dict:
                 return {"inference_score": -1, "coherence_score": -1}
 
 
-def annotate_rows(sampled: list[dict], schema: dict, model: str) -> list[dict]:
+def annotate_rows(sampled: list[dict], schema: dict, model: str, temperature: float = 0.0) -> list[dict]:
     """Stage 3: Annotate each row with LLM quality scores."""
     print(f"Stage 3: Annotate ({len(sampled)} rows with {model})")
 
     with ThreadPoolExecutor() as executor:
         futures = [
-            executor.submit(get_quality_scores, row=row, schema=schema, model=model)
+            executor.submit(get_quality_scores, row=row, schema=schema, model=model, temperature=temperature)
             for row in sampled
         ]
         results = [future.result() for future in futures]
@@ -253,7 +254,7 @@ def write_outputs(
 # ── Main ─────────────────────────────────────────────────────────────
 
 
-def main(input_dataset: str, job_description: Path, output_dir: Path, seed: int = SEED, model: str = DEFAULT_MODEL):
+def main(input_dataset: str, job_description: Path, output_dir: Path, seed: int = SEED, model: str = DEFAULT_MODEL, temperature: float = 0.0):
     rng = random.Random(seed)
 
     with open(job_description) as f:
@@ -263,7 +264,7 @@ def main(input_dataset: str, job_description: Path, output_dir: Path, seed: int 
 
     all_rows = load_inputs(input_dataset)
     sampled = stratified_sample(all_rows, rng)
-    annotated = annotate_rows(sampled, schema, model)
+    annotated = annotate_rows(sampled, schema, model, temperature)
     filtered = filter_by_quality(annotated, MIN_SCORE)
     train_rows, test_rows = train_test_split(filtered, rng)
     sampled_ids = {id(r) for r in sampled}
@@ -291,9 +292,13 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--model", default=DEFAULT_MODEL,
-        help="LLM model for annotation in litellm format (e.g. openai/gpt-4o, bedrock/converse/...)",
+        help="LLM model for annotation in litellm format (e.g. openai/gpt-4o, minimax/MiniMax-M2.5)",
+    )
+    parser.add_argument(
+        "--temperature", type=float, default=0.0,
+        help="Sampling temperature for annotation LLM (default: 0.0; some providers like MiniMax require > 0)",
     )
     parser.add_argument("--seed", type=int, default=SEED)
     args = parser.parse_args()
 
-    main(args.input, args.job_description, args.output_dir, args.seed, args.model)
+    main(args.input, args.job_description, args.output_dir, args.seed, args.model, args.temperature)
