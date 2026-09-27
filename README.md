@@ -115,6 +115,17 @@ One of the output is `unstructured.jsonl`, which contains the production traces 
 python stage2-prepare-distil-labs-data.py --input dlthub/massive_iot_2026_03_03_11_05_35
 ```
 
+You can use any [litellm-supported model](https://docs.litellm.ai/docs/providers) for annotation. For example, to use [MiniMax](https://www.minimaxi.com/) (set `MINIMAX_API_KEY`):
+
+```bash
+python stage2-prepare-distil-labs-data.py \
+  --input dlthub/massive_iot_2026_03_03_11_05_35 \
+  --model minimax/MiniMax-M2.5 \
+  --temperature 0.01
+```
+
+> **Note:** MiniMax requires `temperature > 0`. Use `--temperature 0.01` for near-deterministic output.
+
 This produces the `finetuning-data/` directory ready for upload:
 
 | File | Description |
@@ -242,7 +253,7 @@ Visit [distillabs.ai](https://www.distillabs.ai/) to get started, or [dlthub.com
 
 ## FAQ
 
-**Q: Why not just use GPT-4 / Claude for this in production?**
+**Q: Why not just use GPT-4 / Claude / MiniMax for this in production?**
 
 Two reasons: cost and latency. A 0.6B model deployed on a single GPU responds in under 50ms. A cloud API call takes 400-700ms and costs roughly 200x more per inference at scale. For agents handling thousands of requests per day, that gap compounds fast. And if your data is sensitive -- as it often is for IoT, fintech, or healthcare agents -- you may not be able to send it to a third-party API at all.
 
